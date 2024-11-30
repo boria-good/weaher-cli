@@ -1,0 +1,25 @@
+{
+	"name": "weather-cli",
+	"version": "1.0.0",
+	"main": "weather.js",
+	"bin": {
+		"weather": "./weather.js"
+	},
+	"scripts": {
+		"test": "test"
+	},
+	"keywords": [
+		"weather",
+		"cli"
+	],
+	"author": "'Borys Good'",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"axios": "^1.7.8",
+		"chalk": "^5.3.0",
+		"dedent": "^1.5.3",
+		"yargs": "^17.7.2"
+	},
+	"type": "module"
+}
