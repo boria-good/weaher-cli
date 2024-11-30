@@ -1,18 +1,18 @@
 {
-	"name": "weather-cli",
+	"name": "weather-cli-boria-good",
 	"version": "1.0.0",
 	"main": "weather.js",
 	"bin": {
-		"weather": "./weather.js"
+		"weather": "weather.js"
 	},
 	"scripts": {
-		"test": "test"
+		"start": "node weather.js"
 	},
 	"keywords": [
 		"weather",
 		"cli"
 	],
-	"author": "'Borys Good'",
+	"author": "Borys Good",
 	"license": "ISC",
 	"description": "",
 	"dependencies": {
