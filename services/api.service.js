@@ -3,7 +3,7 @@ import * as Logger from './log.service.js';
 import axios from 'axios';
 
 let _API_TOKEN;
-const _BASE_URL = 'http://api.openweathermap.org';
+const _BASE_URL = 'https://api.openweathermap.org';
 
 export function setApiToken(apiToken) {
   _API_TOKEN = _API_TOKEN ?? apiToken;
@@ -19,19 +19,19 @@ const config = {
 };
 
 /* Getting weather data by city name */
-export async function getWeather(arg) {
-  const { lang, lat, lon } = arg;
-
+export async function getWeather({ lang, lat, lon, countryCode }) {
   if (!_API_TOKEN) {
     new Promise.reject('Token not found');
   }
+
   const url = '/data/2.5/weather';
   const params = {
     appid: _API_TOKEN,
     units: 'metric',
-    lang,
+    lang: lang ?? 'en',
     lat,
     lon,
+    countryCode: countryCode ?? 'UA',
   };
 
   try {
@@ -49,7 +49,7 @@ export async function getWeather(arg) {
  * lat (latitude)
  * lon (longitude)
  */
-export async function getLatLonByCityName(cityName, countryCode) {
+export async function getLatLonByCityName(cityName, countryCode, lang) {
   if (!_API_TOKEN) {
     new Promise.reject('Token not found');
   }
@@ -62,10 +62,10 @@ export async function getLatLonByCityName(cityName, countryCode) {
     url: 'geo/1.0/direct',
     params: {
       appid: _API_TOKEN,
-      q: `${cityName},${countryCode && countryCode}`,
+      q: `${cityName},${!!countryCode && countryCode}`,
       limit: 5,
       units: 'metric',
-      lang: 'uk',
+      lang: lang ?? 'en',
     },
   };
 

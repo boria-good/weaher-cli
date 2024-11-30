@@ -32,7 +32,7 @@ async function main() {
   }
 
   try {
-    const keysObj = await getDataByKeys([IN_KEYS.city, IN_KEYS.token]);
+    const keysObj = await getDataByKeys([IN_KEYS.city, IN_KEYS.token, IN_KEYS.countryCode, IN_KEYS.lang]);
 
     if (!keysObj[IN_KEYS.token]) {
       throw new Error('Token not found');
@@ -41,17 +41,19 @@ async function main() {
       setApiToken(keysObj[IN_KEYS.token]);
     }
 
-    const arr = await getLatLonByCityName(keysObj[IN_KEYS.city], keysObj[IN_KEYS.countryCode]);
+    const arr = await getLatLonByCityName(keysObj[IN_KEYS.city], keysObj[IN_KEYS.countryCode], keysObj[IN_KEYS.lang]);
+
     if (!arr || !arr.length) {
       Logger.printError('City not found');
     } else {
       Logger.printSuccess('Found cities:');
-
       arr.forEach((cityData, index) => {
-        Logger.printInfo(`${index + 1}. City: ${cityData.local_names[keysObj[IN_KEYS.lang] ?? 'en']}`);
-        Logger.printWhite(`latitude: ${cityData.lat}, longitude: ${cityData.lon}`);
+        const city = cityData?.local_names?.[keysObj[IN_KEYS?.lang]] || cityData?.name;
+        Logger.printInfo(`${index + 1}. City: ${city}`);
+        Logger.printWhite(`latitude: ${cityData?.lat}, longitude: ${cityData?.lon}`);
       });
     }
+
     Logger.printWeather(await getWeather({ ...keysObj, ...arr[0] }));
   } catch (err) {
     Logger.printError(err?.message);
